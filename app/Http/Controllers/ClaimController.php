@@ -556,8 +556,8 @@ class ClaimController extends Controller
         $claim  = Claim::itemClaimReject()->findOrFail($claim_id);
         $claim_type = $claim->claim_type;
         //validate
-            // $now = Carbon::now()->toDateTimeString();
-            // $HBS_CL_CLAIM = HBS_CL_CLAIM::findOrFail($claim->code_claim);
+            $now = Carbon::now()->toDateTimeString();
+            $HBS_CL_CLAIM = HBS_CL_CLAIM::findOrFail($claim->code_claim);
             // $count_provider_not = $HBS_CL_CLAIM->HBS_CL_LINE->whereIn('prov_oid',config('constants.not_provider'))->count();
             // if($count_provider_not > 0){
             //     return redirect('/admin/claim/'.$claim_id)->with('errorStatus', 'Tồn tại provider: "BUMRUNGRAD INTERNATIONAL HOSPITAL" vui lòng cập nhật lại HBS ');
