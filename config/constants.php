@@ -109,17 +109,17 @@ return[
     // 'url_hbs' => 'http://192.168.148.3:8010/',
     //test
     'token_mantic' => 'YeT9k0PT91IQnmC5lSUpy75s63Y8uMEu',
-    'url_mantic' => 'https://uat-etalk.pacificcross.com.vn/',
-    'url_mantic_api' => 'https://uat-etalk.pacificcross.com.vn/',
-    'url_cps' => 'http://local/pacific_project/cps_dlvn/branches/Tinh_0000561/index.php/',
-    'api_cps' => 'http://local/pacific_project/cps_dlvn/branches/Tinh_0000561/index.php/api/',
+    'url_mantic' => 'https://collaboration.pacificcross.com.vn/aiacKGK1kPjJSpbEI/',
+    'url_mantic_api' => 'https://collaboration.pacificcross.com.vn/aiacKGK1kPjJSpbEI/',
+    'url_cps' => 'https://cpsaia.pacificcross.com.vn/index.php/',
+    'api_cps' => 'https://cpsaia.pacificcross.com.vn/index.php/api/',
     'client_id' => 'ul-2l44e7vq-3t8m-4fqeaxi-6olcepgxweq',
     'client_secret' => 'ukbg95yi3ifcdjiso5rc7kcjqeetxpfv',
     'url_hbs' => 'http://192.168.148.3:8010/',
     //end test
     'grant_type' => 'client_credentials',
     'url_query_online' => 'https://pcvwebservice.pacificcross.com.vn/bluecross/query_rest.php?id=',
-    'mount_dlvn' => "http://192.168.0.235/dlvnprod/",
+    'mount_dlvn' => "http://192.168.0.235/vnaiaprod/",
     'claim_result' => [
         1 => 'FULLY PAID' ,
         2 => 'PARTIALLY PAID',

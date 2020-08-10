@@ -190,13 +190,18 @@ class ClaimController extends Controller
         //     $request->session()->flash('errorStatus', 'Vui Lòng cập nhật Policy No trên Etalk');
         //     return redirect('/admin/claim/create')->withInput();
         // }
-
+        
         //end valid
         if ($request->_url_file_sorted) {
             saveFile($request->_url_file_sorted[0], config('constants.sortedClaimUpload'));
         }
         $file = $request->file;
         $dataNew = $request->except(['file','file2','table2_parameters', 'table1_parameters']);
+
+        $MANTIS_CUSTOM_FIELD_STRING = MANTIS_CUSTOM_FIELD_STRING::where('value', $request->barcode)->where('field_id',4)->first();
+        if($MANTIS_CUSTOM_FIELD_STRING){
+            $dataNew['mantis_id'] = data_get($MANTIS_CUSTOM_FIELD_STRING, 'bug_id');
+        }
         $userId = Auth::User()->id;
         $dirUpload = Config::get('constants.formClaimUpload');
         
@@ -360,14 +365,18 @@ class ClaimController extends Controller
         $selected_diagnosis = $claim->hospital_request ? collect($claim->hospital_request->diagnosis)->pluck('id') : null;
         $fromEmail = null;
         if(data_get($claim->hospital_request, 'url_attach_email')){
-            $messageFactory = new MAPI\MapiMessageFactory();
-            $documentFactory = new Pear\DocumentFactory(); 
-            $ole = $documentFactory->createFromFile(storage_path("app/public/sortedClaim")."/".$claim->hospital_request->url_attach_email);
-            $message = $messageFactory->parseMessage($ole);
-            $fromEmail = collect($message->getRecipients())->map(function ($item, $key) {
-                return $item->getEmail();
-            });
-            $fromEmail = implode(",", $fromEmail->unique()->toArray());
+            try {
+                $messageFactory = new MAPI\MapiMessageFactory();
+                $documentFactory = new Pear\DocumentFactory(); 
+                $ole = $documentFactory->createFromFile(storage_path("app/public/sortedClaim")."/".$claim->hospital_request->url_attach_email);
+                $message = $messageFactory->parseMessage($ole);
+                $fromEmail = collect($message->getRecipients())->map(function ($item, $key) {
+                    return $item->getEmail();
+                });
+                $fromEmail = implode(",", $fromEmail->unique()->toArray());
+            } catch (Exception $e) {
+
+            }
         }
         $compact = compact(['data', 'dataImage', 'items', 'admin_list', 'listReasonReject', 
         'listLetterTemplate' , 'list_status_ad', 'user', 'payment_history', 'approve_amt','tranfer_amt','present_amt',
@@ -450,6 +459,10 @@ class ClaimController extends Controller
         $userId = Auth::User()->id;
         $dataUpdate = $request;
         $dataUpdate = $dataUpdate->except(['table2_parameters']);
+        $MANTIS_CUSTOM_FIELD_STRING = MANTIS_CUSTOM_FIELD_STRING::where('value', $request->barcode)->where('field_id',4)->first();
+        if($MANTIS_CUSTOM_FIELD_STRING){
+            $dataNew['mantis_id'] = data_get($MANTIS_CUSTOM_FIELD_STRING, 'bug_id');
+        }
         if ($request->_url_file_sorted) {
             $dataUpdate['url_file_sorted'] = saveFile($request->_url_file_sorted[0], config('constants.sortedClaimUpload'),$claim->url_file_sorted);
         }
@@ -1999,14 +2012,18 @@ class ClaimController extends Controller
         $old_msg = "";
         // Read email
         if($claim->hospital_request->url_attach_email){
-            $messageFactory = new MAPI\MapiMessageFactory();
-            $documentFactory = new Pear\DocumentFactory(); 
-            $ole = $documentFactory->createFromFile(storage_path("app/public/sortedClaim")."/".$claim->hospital_request->url_attach_email);
-            $message = $messageFactory->parseMessage($ole);
-            $old_msg = $message->getBody();
-            preg_match('/(RE:)/',  $message->properties['subject'], $matches_re, PREG_OFFSET_CAPTURE);
-            $subject = $matches_re ? $message->properties['subject'] : "RE: " . $message->properties['subject'];
-            $old_msg  = str_replace("\r\n", "<br>", $old_msg);
+            try {
+                $messageFactory = new MAPI\MapiMessageFactory();
+                $documentFactory = new Pear\DocumentFactory(); 
+                $ole = $documentFactory->createFromFile(storage_path("app/public/sortedClaim")."/".$claim->hospital_request->url_attach_email);
+                $message = $messageFactory->parseMessage($ole);
+                $old_msg = $message->getBody();
+                preg_match('/(RE:)/',  $message->properties['subject'], $matches_re, PREG_OFFSET_CAPTURE);
+                $subject = $matches_re ? $message->properties['subject'] : "RE: " . $message->properties['subject'];
+                $old_msg  = str_replace("\r\n", "<br>", $old_msg);
+            } catch (Exception $e) {
+                $old_msg = "";
+            }
         }
 
         $user = Auth::User();

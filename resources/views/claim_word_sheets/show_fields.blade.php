@@ -11,7 +11,7 @@
         <tbody>
             <tr>
                 <td>
-                    {{$claim->barcode}}
+                    {{$claim->mantis_id}}
                 </td>
             </tr>
         </tbody>

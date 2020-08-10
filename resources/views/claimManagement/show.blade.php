@@ -119,7 +119,7 @@ $totalAmount = 0;
                             {{ Form::label('type', $data->barcode , array('class' => 'col-md-8')) }}
 
                             {{ Form::label('type',  'Etalk Link', array('class' => 'col-md-4')) }}
-                            <a class="btn btn-primary col-md-8 " target="_blank" href="{{config('constants.url_mantic').'view.php?id='.$data->barcode }}">Link</a>
+                            <a class="btn btn-primary col-md-8 " target="_blank" href="{{config('constants.url_mantic').'view.php?id='.$data->mantis_id }}">Link</a>
 
                             {{ Form::label('type',  'HBS Link', array('class' => 'col-md-4')) }}
                             <a class="btn btn-primary col-md-4 mt-1"  href="ie:{{config('constants.url_hbs')}}/hbs/cl/ClGeneral.do?formAction=enquiry&id=clam{{$data->code_claim}}">View</a>
