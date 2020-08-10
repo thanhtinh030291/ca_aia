@@ -656,22 +656,23 @@ class ClaimController extends Controller
             }
             if($status_change[1] == 'approved'){
                 if($user->hasRole('Claim')){
-                    $to_user = Setting::findOrFail(1)->manager_claim;
+                    $to_user = User::whereHas("roles", function($q){ $q->where("name", "QC"); })->get()->pluck('id')->toArray();
+                    $to_user = [Arr::random($to_user)];
                 }
                 if($user->hasRole('Lead') || $user->hasRole('Claim Independent')){
                     $to_user = User::whereHas("roles", function($q){ $q->where("name", "QC"); })->get()->pluck('id')->toArray();
                     $to_user = [Arr::random($to_user)];
                 }
-                if(($user_create->hasRole('Claim') || $user_create->hasRole('Lead')) && $user->hasRole('QC') && removeFormatPrice(data_get($export_letter->info, 'approve_amt')) > 30000000){
+                if($user->hasRole('QC')){
                     $to_user = Setting::findOrFail(1)->manager_claim;
                 }
                 if( $user->hasRole('Manager') &&  removeFormatPrice(data_get($export_letter->info, 'approve_amt')) > 100000000){
                     $to_user = Setting::findOrFail(1)->header_claim;
                 }
                 // Claim Independent
-                if($user_create->hasRole('Claim Independent') && $user->hasRole('QC')){
-                    $to_user = Setting::findOrFail(1)->manager_claim;
-                }
+                // if($user_create->hasRole('Claim Independent') && $user->hasRole('QC')){
+                //     $to_user = Setting::findOrFail(1)->manager_claim;
+                // }
                 
                 // Claim GOP
                 
