@@ -1709,8 +1709,14 @@ class ClaimController extends Controller
 
         $claim  = Claim::itemClaimReject()->findOrFail($id);
         $CsrFile = $claim->CsrFile->where('rpid_oid',$request->rpid_oid)->first();
-        $path_file[] = storage_path("../../vnaiaprod" . $CsrFile->path . $CsrFile->filename);
-
+        $url_csr = storage_path("../../vnaiaprod" . $CsrFile->path . $CsrFile->filename);
+        $mpdf = new \Mpdf\Mpdf(['tempDir' => base_path('resources/fonts/')]);
+        $pagecount = $mpdf->SetSourceFile(storage_path("../../vnaiaprod" . $CsrFile->path . $CsrFile->filename));
+        $pagecount = $pagecount -1;
+        $file_name_cat =  md5(Str::random(14).time());
+        $path_file_name_cat = storage_path("app/public/cache/$file_name_cat");
+        $cm_run = " gs -sDEVICE=pdfwrite -dFirstPage=1 -dLastPage={$pagecount} -sOutputFile={$path_file_name_cat} {$url_csr}" ;
+        $path_file[] = $path_file_name_cat;
         if($claim->url_file_sorted && file_exists(storage_path('app/public/sortedClaim/'. $claim->url_file_sorted))){
             $filename_sorted = storage_path('app/public/sortedClaim/'. $claim->url_file_sorted);
             $handle = fopen($filename_sorted, "r");
