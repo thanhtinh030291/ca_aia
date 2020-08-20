@@ -1715,7 +1715,8 @@ class ClaimController extends Controller
         $pagecount = $pagecount -1;
         $file_name_cat =  md5(Str::random(14).time());
         $path_file_name_cat = storage_path("app/public/cache/$file_name_cat");
-        $cm_run = " gs -sDEVICE=pdfwrite -dFirstPage=1 -dLastPage={$pagecount} -sOutputFile={$path_file_name_cat} {$url_csr}" ;
+        $cm_run = "gs -sDEVICE=pdfwrite -dNOPAUSE -dQUIET -dBATCH -dFirstPage=1 -dLastPage={$pagecount} -sOutputFile={$path_file_name_cat} {$url_csr}" ;
+        exec($cm_run);
         $path_file[] = $path_file_name_cat;
         if($claim->url_file_sorted && file_exists(storage_path('app/public/sortedClaim/'. $claim->url_file_sorted))){
             $filename_sorted = storage_path('app/public/sortedClaim/'. $claim->url_file_sorted);
