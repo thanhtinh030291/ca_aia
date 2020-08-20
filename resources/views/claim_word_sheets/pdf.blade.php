@@ -89,7 +89,7 @@
         <thead>
             <tr>
                 <th>
-                    DLVN Claim
+                    AIA Claim
                 </th>
             </tr>    
         </thead>
@@ -293,8 +293,8 @@
             </tr>
             @endif
             <tr align="center">
-                <th align="center">Claim AMT : {{formatPrice($claimWordSheet->claim_amt)}}</th>
-                <th align="center">PAYABLE AMT : {{formatPrice($claimWordSheet->payable_amt)}}</th>
+                <th align="center">Claim AMT : {{formatPrice($HBS_CL_CLAIM->SumPresAmt)}}</th>
+                <th align="center">PAYABLE AMT : {{formatPrice($HBS_CL_CLAIM->SumAppAmt)}}</th>
             </tr>    
         </tbody>
     </table>

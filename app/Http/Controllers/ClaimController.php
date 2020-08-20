@@ -1705,6 +1705,39 @@ class ClaimController extends Controller
         return redirect('/admin/claim/'.$id)->with('status', __('message.update_claim'));
     }
 
+    public function sendCSRFile(Request $request, $id){
+
+        $claim  = Claim::itemClaimReject()->findOrFail($id);
+        $CsrFile = $claim->CsrFile->where('rpid_oid',$request->rpid_oid)->first();
+        $path_file[] = storage_path("../../vnaiaprod" . $CsrFile->path . $CsrFile->filename);
+
+        if($claim->url_file_sorted && file_exists(storage_path('app/public/sortedClaim/'. $claim->url_file_sorted))){
+            $filename_sorted = storage_path('app/public/sortedClaim/'. $claim->url_file_sorted);
+            $handle = fopen($filename_sorted, "r");
+            $file_contents = stream_get_contents($handle);
+            fclose($handle);
+            if($file_contents != ""){
+                $file_name_man =  md5(Str::random(10).time());
+                Storage::put('public/cache/' . $file_name_man, $file_contents);
+                $path_file[] = storage_path("app/public/cache/$file_name_man") ;
+            }
+        }else{
+            $file_name =  md5(Str::random(13).time());
+            Storage::put('public/sortedClaim/' . $file_name .'.pdf', "");
+            $claim->url_file_sorted = $file_name .'.pdf';
+            $claim->push();
+        }
+        $cm_run = "gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -dPDFSETTINGS=/prepress -sOutputFile=".storage_path("app/public/sortedClaim/{$claim->url_file_sorted}"). 
+        " -dBATCH " . implode(" ",$path_file);
+        exec($cm_run);
+        array_shift($path_file);
+        foreach ($path_file as $key => $value){
+            $path_file[$key]  = str_replace(storage_path("app")."/", "", $value);
+        }
+        Storage::delete($path_file);
+        return redirect('/admin/claim/'.$id)->with('status', __('message.update_claim'));
+    }
+
     public function setPcvExpense(Request $request, $id){
         $pattern = '/[^0-9]+/';
         $rp = AjaxCommonController::setPcvExpense($request->paym_id, preg_replace($pattern,"",$request->pcv_expense));

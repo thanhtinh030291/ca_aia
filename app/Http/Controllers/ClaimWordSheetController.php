@@ -104,6 +104,7 @@ class ClaimWordSheetController extends Controller
         $arr_clli_oid = $HBS_CL_CLAIM->HBS_CL_LINE->pluck('clli_oid')->toArray();
         $claim_line = $claim_line->whereNotIn('clli_oid',$arr_clli_oid);
         $log_history = $claimWordSheet->log;
+        //dd($member->MR_MEMBER_PLAN[0]->MR_POLICY_PLAN);
         $listReasonReject = ReasonReject::orderBy('id', 'desc')->pluck('name', 'id');
         $data_type_of_visit_hbs = IOPDiagWookSheet($HBS_CL_CLAIM);
         if($claimWordSheet->type_of_visit == [] || $claimWordSheet->type_of_visit == null){
@@ -263,15 +264,6 @@ class ClaimWordSheetController extends Controller
                 $file_name_mantis =  md5(Str::random(11).time());
                 Storage::put('public/cache/' . $file_name_mantis, $file_contents);
                 $path_file[] = storage_path("app/public/cache/$file_name_mantis") ;
-                if($claimWordSheet->old_number_page_send != 0){
-                    
-                    $file_name_mantis_output =  md5(Str::random(9).time());
-                    $FirstPage = $claimWordSheet->old_number_page_send + 1 ;
-                    $cm_run ="gs -sDEVICE=pdfwrite -dNOPAUSE -dQUIET -dBATCH -dFirstPage={$FirstPage} -sOutputFile=". storage_path("app/public/cache/$file_name_mantis_output") ." ".storage_path("app/public/cache/$file_name_mantis");
-                    exec($cm_run);
-                    Storage::delete(str_replace(storage_path("app")."/", "", $path_file[1]));
-                    $path_file[1] = storage_path("app/public/cache/$file_name_mantis_output");
-                }
             }
         }else{
             Storage::put('public/sortedClaim/' . $file_name .'.pdf', $pdf);
@@ -289,8 +281,6 @@ class ClaimWordSheetController extends Controller
             $path_file[$key]  = str_replace(storage_path("app")."/", "", $value);
         }
         Storage::delete($path_file);
-        $claimWordSheet->old_number_page_send = $count_page;
-        $claimWordSheet->save();
         return response()->json(['status' => 'success' , 'message' => 'Ok']);
     }
     /**

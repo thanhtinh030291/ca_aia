@@ -44,6 +44,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/claim/setProvGOPPresAmt/{id}', 'ClaimController@setProvGOPPresAmt')->name('claim.setProvGOPPresAmt');
         Route::post('/claim/requestManagerGOP/{id}', 'ClaimController@requestManagerGOP')->name('claim.requestManagerGOP');
         Route::post('/claim/sendMailProvider', 'ClaimController@sendMailProvider')->name('claim.sendMailProvider');
+        Route::post('/claim/sendCSRFile/{id}', 'ClaimController@sendCSRFile')->name('claim.sendCSRFile');
         
         
         Route::get('/claim/barcode/{barcode}', 'ClaimController@barcode_link');

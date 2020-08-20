@@ -47,10 +47,7 @@
     </div>
     <div class="col-md-6">
     <p class="font-weight-bold">Status:  
-        {!! Form::textarea('status_online_query', $claimWordSheet->status_online_query ? $claimWordSheet->status_online_query : $member->statusQuery,['class' => 'editor_not_menu' , 'rows' => "3"]) !!}
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#onlineQueryModal">
-            Online Query
-        </button>
+        {!! Form::textarea('status_online_query', $claimWordSheet->status_online_query ,['class' => 'editor_not_menu' , 'rows' => "3"]) !!}
     </p>
     </div>
 </div>
@@ -241,10 +238,10 @@
     </div>
     <div class="row ml-1">
         <div class="col-md-6">
-            CLAIM AMT {{ Form::text('claim_amt', $claimWordSheet->claim_amt, [ 'id' => 'claim_amt' ,'class'=>"item-price form-control col-sm-5", 'readonly']) }}
+            CLAIM AMT {{ Form::text('claim_amt', $HBS_CL_CLAIM->SumPresAmt, [ 'class'=>"item-price form-control col-sm-5", 'readonly']) }}
         </div>
         <div class="col-md-6">
-            PAYABLE AMT {{ Form::text('payable_amt', $claimWordSheet->payable_amt, ['id' => 'payable_amt' ,'class'=>"item-price form-control col-sm-5", 'readonly']) }}
+            PAYABLE AMT {{ Form::text('payable_amt', $HBS_CL_CLAIM->SumAppAmt, ['class'=>"item-price form-control col-sm-5", 'readonly']) }}
         </div>
     </div>
     

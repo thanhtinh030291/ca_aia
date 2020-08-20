@@ -174,6 +174,9 @@ return[
         'DT_DENT' => 'DT_DENT',
         'OE1' => 'OE1',
         'DENT' => 'DENT',
+        'RB1' => 'RB1',
+        'IMIS1' => 'IMIS1',
+        'POSH1' => 'PORX1'
     ],
     'status_mantic' =>[
         9=>'mcp_new',
