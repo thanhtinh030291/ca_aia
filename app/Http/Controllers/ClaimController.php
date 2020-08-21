@@ -1181,7 +1181,7 @@ class ClaimController extends Controller
         $plan = $HBS_CL_CLAIM->plan;
         
         //$CSRRemark = $CSRRemark_TermRemark['CSRRemark'];
-        $CSRRemark = $HBS_CL_CLAIM->remark;
+        $CSRRemark = $CSRRemark_TermRemark['CSRRemark'];
         $TermRemark = $CSRRemark_TermRemark['TermRemark'];
         $itemsReject = $CSRRemark_TermRemark['itemsReject'];
         $sumAmountReject = $CSRRemark_TermRemark['sumAmountReject'];
@@ -1225,6 +1225,7 @@ class ClaimController extends Controller
         $noteGOP = data_get($claim->hospital_request,'note',"");
         
         $content = $letter->template;
+        $content = str_replace('[[$mantisId]]', $claim->mantis_id, $content);
         $content = str_replace('[[$ProvPstAmt]]', formatPrice(data_get($claim->hospital_request,'prov_gop_pres_amt')), $content);
         $content = str_replace('[[$ProDeniedAmt]]', formatPrice($sumAmountReject), $content);
         $content = str_replace('[[$ProvName]]', $Provider->prov_name, $content);
@@ -1265,11 +1266,10 @@ class ClaimController extends Controller
         $content = str_replace('[[$now]]', datepayment(), $content);
 
         $content = str_replace('[[$invoicePatient]]', implode(" ",$HBS_CL_CLAIM->HBS_CL_LINE->pluck('inv_no')->toArray()) , $content);
-        $content = str_replace('[[$CSRRemark]]', $CSRRemark , $content);
-        // if($CSRRemark){
-        //     $content = str_replace('[[$CSRRemark]]', implode('',$CSRRemark) , $content);
-        //     $content = str_replace('[[$TermRemark]]', implode('',array_unique($TermRemark)) , $content);
-        // }
+        if($CSRRemark){
+            $content = str_replace('[[$CSRRemark]]', implode('',$CSRRemark) , $content);
+            $content = str_replace('[[$TermRemark]]', implode('',array_unique($TermRemark)) , $content);
+         }
         $content = str_replace('[[$tableInfoPayment]]', $tableInfo , $content);
         $content = str_replace('[[$apvAmt]]', formatPrice((int)$sumAppAmt), $content);
         $content = str_replace('[[$time_pay]]', $time_pay, $content);
@@ -1292,12 +1292,10 @@ class ClaimController extends Controller
                     <thead>
                         <tr>
                             <th style="border: 1px solid black ; font-family: arial, helvetica, sans-serif ; font-size: 11pt" rowspan="2">Quyền lợi</th>
-                            <th style="border: 1px solid black ; font-family: arial, helvetica, sans-serif ; font-size: 11pt">Giới hạn thanh toán</th>
                             <th style="border: 1px solid black ; font-family: arial, helvetica, sans-serif ; font-size: 11pt">Số tiền yêu cầu bồi thường (Căn cứ trên chứng từ hợp lệ) </th>
                             <th style="border: 1px solid black ; font-family: arial, helvetica, sans-serif ; font-size: 11pt">Số tiền thanh toán</th>
                         </tr>
                         <tr>
-                            <th style="border: 1px solid black ; font-family: arial, helvetica, sans-serif ; font-size: 11pt">Đồng</th>
                             <th style="border: 1px solid black ; font-family: arial, helvetica, sans-serif ; font-size: 11pt">Đồng</th>
                             <th style="border: 1px solid black ; font-family: arial, helvetica, sans-serif ; font-size: 11pt">Đồng</th>
                         </tr>
@@ -1325,7 +1323,6 @@ class ClaimController extends Controller
         foreach ($IP as $keyIP => $valueIP) {
             $html .= '<tr>
                     <td style="border: 1px solid black; font-weight:bold; font-family: arial, helvetica, sans-serif ; font-size: 11pt">Nội Trú</td>
-                    <td style="border: 1px solid black; font-family: arial, helvetica, sans-serif ; font-size: 11pt">Mỗi bệnh /thương tật </td>
                     <td style="border: 1px solid black; font-family: arial, helvetica, sans-serif ; font-size: 11pt"></td>
                     <td style="border: 1px solid black; font-family: arial, helvetica, sans-serif ; font-size: 11pt"></td>
                 </tr>';
@@ -1366,7 +1363,6 @@ class ClaimController extends Controller
                 $html .=    '
                             <tr>
                                 <td style="border: 1px solid black ; font-family: arial, helvetica, sans-serif ; font-size: 11pt">'.$content.'</td>
-                                <td style="border: 1px solid black ; font-family: arial, helvetica, sans-serif ; font-size: 11pt">'.$range_pay.'</td>
                                 <td style="border: 1px solid black ; font-family: arial, helvetica, sans-serif ; font-size: 11pt ; text-align: center; vertical-align: middle;">'.formatPrice($value->pres_amt).'</td>
                                 <td style="border: 1px solid black ; text-align: center; vertical-align: middle; font-family: arial, helvetica, sans-serif ; font-size: 11pt">'.formatPrice($value->app_amt).'</td>
                             </tr>
@@ -1400,14 +1396,12 @@ class ClaimController extends Controller
                 
                 $html .= '<tr>
                             <td style="border: 1px solid black ; font-weight:bold; font-family: arial, helvetica, sans-serif ; font-size: 11pt">Ngoại Trú</td>
-                            <td style="border: 1px solid black ; font-family: arial, helvetica, sans-serif ; font-size: 11pt">Tối đa  '.formatPrice(data_get($limit,'amt_yr')).' mỗi năm</td>
                             <td style="border: 1px solid black ; font-family: arial, helvetica, sans-serif ; font-size: 11pt"></td>
                             <td style="border: 1px solid black ; font-family: arial, helvetica, sans-serif ; font-size: 11pt"></td>
                         </tr>';
             }
             $html .=    '<tr>
                             <td style="border: 1px solid black ;font-family: arial, helvetica, sans-serif ; font-size: 11pt">'.$content.'</td>
-                            <td style="border: 1px solid black; font-family: arial, helvetica, sans-serif ; font-size: 11pt">'.$content_limit.'</td>
                             <td style="border: 1px solid black; text-align: center; vertical-align: middle; font-family: arial, helvetica, sans-serif ; font-size: 11pt">'.formatPrice($value->pres_amt).'</td>
                             <td style="border: 1px solid black; text-align: center; vertical-align: middle; font-family: arial, helvetica, sans-serif ; font-size: 11pt">'.formatPrice($value->app_amt).'</td>
                         </tr>';
@@ -1422,14 +1416,12 @@ class ClaimController extends Controller
                 
                 $html .= '<tr>
                             <td style="border: 1px solid black ; font-weight:bold; font-family: arial, helvetica, sans-serif ; font-size: 11pt">Răng</td>
-                            <td style="border: 1px solid black ; font-family: arial, helvetica, sans-serif ; font-size: 11pt">Tối đa  '.formatPrice(data_get($limit,'amt_yr')).' mỗi năm</td>
                             <td style="border: 1px solid black ; font-family: arial, helvetica, sans-serif ; font-size: 11pt"></td>
                             <td style="border: 1px solid black ; font-family: arial, helvetica, sans-serif ; font-size: 11pt"></td>
                         </tr>';
             }
             $html .=    '<tr>
                             <td style="border: 1px solid black ; font-family: arial, helvetica, sans-serif ; font-size: 11pt">Chi phí điều trị nha khoa '.$value->RT_DIAGNOSIS->diag_desc_vn.'</td>
-                            <td style="border: 1px solid black ; font-family: arial, helvetica, sans-serif ; font-size: 11pt">Từ trên '.formatPrice(data_get($limit,'amt')).' mỗi lần thăm khám</td>
                             <td style="border: 1px solid black; text-align: center; vertical-align: middle; font-family: arial, helvetica, sans-serif ; font-size: 11pt">'.formatPrice($value->pres_amt).'</td>
                             <td style="border: 1px solid black; text-align: center; vertical-align: middle; font-family: arial, helvetica, sans-serif ; font-size: 11pt">'.formatPrice($value->app_amt).'</td>
                         </tr>';
@@ -1437,7 +1429,7 @@ class ClaimController extends Controller
             $sum_app_amt += $value->app_amt;
         }
             $html .=    '<tr>
-                            <th style="border: 1px solid black ;font-family: arial, helvetica, sans-serif ; font-size: 11pt" colspan="2">Tổng cộng:</th>
+                            <th style="border: 1px solid black ;font-family: arial, helvetica, sans-serif ; font-size: 11pt" >Tổng cộng:</th>
                             
                             <th style="border: 1px solid black ; font-family: arial, helvetica, sans-serif ; font-size: 11pt">'.formatPrice($sum_pre_amt).'</th>
                             <th style="border: 1px solid black ; font-family: arial, helvetica, sans-serif ; font-size: 11pt">[[$time_pay]]</th>
@@ -1742,6 +1734,35 @@ class ClaimController extends Controller
             $path_file[$key]  = str_replace(storage_path("app")."/", "", $value);
         }
         Storage::delete($path_file);
+        return redirect('/admin/claim/'.$id)->with('status', __('message.update_claim'));
+    }
+
+    public function deletePage(Request $request, $id){
+        $claim  = Claim::itemClaimReject()->findOrFail($id);
+        if($claim->url_file_sorted && file_exists(storage_path('app/public/sortedClaim/'. $claim->url_file_sorted))){
+            $filename_sorted = storage_path('app/public/sortedClaim/'. $claim->url_file_sorted);
+            $patch_file_convert = storage_path('app/public/cache/'. $claim->url_file_sorted);
+            $cm_run ="gs -sDEVICE=pdfwrite -dNOPAUSE -dQUIET -dBATCH -sOutputFile=". $patch_file_convert ." ".$filename_sorted;
+            exec($cm_run);
+            $mpdf = new \Mpdf\Mpdf(['tempDir' => base_path('resources/fonts/')]);
+            $pagecount = $mpdf->SetSourceFile($patch_file_convert);
+            
+            $allpage =  range(1,$pagecount);
+            $page_delete = range($request->from , $request->to);
+            $result=array_diff($allpage,$page_delete);
+            $pageList = implode(",",$result);
+            $file_name =  md5(Str::random(13).time());
+            Storage::put('public/sortedClaim/' . $file_name .'.pdf', "");
+            $path_file_name = storage_path('app/public/sortedClaim/'. $file_name.'.pdf');
+            $cm_run = "gs -q -sDEVICE=pdfwrite -dNOPAUSE -dQUIET -dBATCH -sPageList={$pageList} -sOutputFile={$path_file_name} {$patch_file_convert}";
+            exec($cm_run);
+            Storage::delete('/public/sortedClaim/'.$claim->url_file_sorted);
+            Storage::delete('/public/cache/'.$claim->url_file_sorted);
+            $claim->url_file_sorted = $file_name .'.pdf';
+            $claim->push();
+        }else{
+            return redirect('/admin/claim/'.$id)->with('errorStatus', "Không tồn Tại file đã sắp xếp");
+        }
         return redirect('/admin/claim/'.$id)->with('status', __('message.update_claim'));
     }
 

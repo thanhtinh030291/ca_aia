@@ -94,8 +94,14 @@ $totalAmount = 0;
                                         <input id="url_file_sorted" type="file" name="_url_file_sorted[]" >
                                     </div>
                                     <div class="mt-2" >
-                                        <button type="submit" class="btn btn-primary " > {{__('message.save')}}</button> 
+                                        <button type="submit" class="btn btn-primary " > {{__('message.save')}}</button>
                                         <button type="button" onclick="upload_summary()" class="btn btn-primary m-2">Send to summary Etalk</button>
+                                        {!! Form::button('Delete pages', ['data-toggle' => "modal" ,  
+                                                'data-target' => "#deletePagesModal",
+                                                'type' => 'button', 
+                                                'class' => ' btn text-danger' , 
+                                                'onclick' => 'comfirmPayment(this);',
+                                                ]) !!}
                                     </div>
                                     <!-- End file image -->
                                     {{ Form::close() }}
@@ -444,6 +450,8 @@ $totalAmount = 0;
 {{-- Modal CSR File--}}
 @include('claimManagement.csrModal')
 
+{{-- deletePagesModal--}}
+@include('claimManagement.deletePagesModal')
 
 @endsection
 
