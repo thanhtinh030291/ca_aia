@@ -1733,7 +1733,7 @@ class ClaimController extends Controller
         $mpdf->AddPage('L');
         $count_page = $mpdf->SetSourceFile($url_csr);
         for ($i = 1; $i <= $count_page; $i++) {
-            $tplId = $mpdf_unc->ImportPage($i);
+            $tplId = $mpdf->ImportPage($i);
             $mpdf->UseTemplate($tplId);
         }
 
