@@ -1745,10 +1745,9 @@ class ClaimController extends Controller
         Storage::put('public/cache/' . $file_name_letter, $pdf);
         $path_file[] = storage_path("app/public/cache/$file_name_letter") ;
 
-        $mpdf->AddPage();
         $count_page = $mpdf->SetSourceFile(storage_path("app/public/cache/$file_name_letter"));
         for ($i = 1; $i <= $count_page; $i++) {
-            $mpdf->AddPage('L');
+            $mpdf->AddPage();
             $tplId = $mpdf->ImportPage($i);
             $mpdf->UseTemplate($tplId);
         }
