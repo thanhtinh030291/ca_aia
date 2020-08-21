@@ -1697,6 +1697,64 @@ class ClaimController extends Controller
         return redirect('/admin/claim/'.$id)->with('status', __('message.update_claim'));
     }
 
+    public function downloadFinishFile(Request $request, $id){
+        $path_file = [] ;
+        $export_letter_id = $request->export_letter_id;
+        $export_letter = ExportLetter::findOrFail($export_letter_id);
+        $user = Auth::User();
+        $claim  = Claim::itemClaimReject()->findOrFail($id);
+
+        //get file 
+        if($export_letter->approve != null){
+            $data['content_letter'] = $export_letter->approve['data'];
+            $data['content_payment'] =  isset($export_letter->approve['data_payment']) ? base64_decode($export_letter->approve['data_payment']) : null;
+        }else{
+            
+            $data['content_letter'] = $export_letter->wait['data'];
+            $data['content_payment'] = $export_letter->letter_template->letter_payment ? $this->letterPayment($export_letter->letter_template->letter_payment , $id , $request->export_letter_id) : null;
+        }
+        $mpdf = new \Mpdf\Mpdf(['tempDir' => base_path('resources/fonts/')]);
+        // save cache payment
+        if($data['content_payment']){
+            $file_name_payment =  md5(Str::random(12).time());
+            Storage::put('public/cache/' . $file_name_payment, $data['content_payment']);
+            $path_file[] = storage_path("app/public/cache/$file_name_payment") ;
+            $mpdf->AddPage();
+            $count_page = $mpdf->SetSourceFile(storage_path("app/public/cache/$file_name_payment"));
+            for ($i = 1; $i <= $count_page; $i++) {
+                $tplId = $mpdf->ImportPage($i);
+                $mpdf->UseTemplate($tplId);
+            }
+        }
+
+        // save CSR
+        $CsrFile = $claim->CsrFile->where('rpct_oid','VN_CLSETTRPT01_OC')->first();
+        $url_csr = storage_path("../../vnaiaprod" . $CsrFile->path . $CsrFile->filename);
+        $mpdf->AddPage('L');
+        $count_page = $mpdf->SetSourceFile($url_csr);
+        for ($i = 1; $i <= $count_page; $i++) {
+            $tplId = $mpdf_unc->ImportPage($i);
+            $mpdf->UseTemplate($tplId);
+        }
+
+        //save cache letter
+        $file_name_letter =  md5(Str::random(11).time());
+        $mpdf_lt = new \Mpdf\Mpdf(['tempDir' => base_path('resources/fonts/')]);
+        $mpdf_lt->WriteHTML( $data['content_letter']);
+        $pdf = $mpdf_lt->Output('filename.pdf',\Mpdf\Output\Destination::STRING_RETURN);
+        Storage::put('public/cache/' . $file_name_letter, $pdf);
+        $path_file[] = storage_path("app/public/cache/$file_name_letter") ;
+
+        $mpdf->AddPage();
+        $count_page = $mpdf->SetSourceFile(storage_path("app/public/cache/$file_name_letter"));
+        for ($i = 1; $i <= $count_page; $i++) {
+            $tplId = $mpdf->ImportPage($i);
+            $mpdf->UseTemplate($tplId);
+        }
+        
+        $mpdf->Output();
+    }
+    
     public function sendCSRFile(Request $request, $id){
 
         $claim  = Claim::itemClaimReject()->findOrFail($id);
