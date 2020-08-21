@@ -314,7 +314,6 @@ class ClaimWordSheetController extends Controller
         }
         $userId = Auth::User()->id;
         $data['updated_user'] = $userId;
-        
         try {
             DB::beginTransaction();
             $claim_word_sheet = ClaimWordSheet::updateOrCreate(['id' => $claimWordSheet->id], $data);

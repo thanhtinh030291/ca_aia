@@ -4,10 +4,11 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\ClaimWordSheet;
+use App\Http\Traits\SanitizesInput;
 
 class UpdateClaimWordSheetRequest extends FormRequest
 {
-
+    use SanitizesInput;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -28,5 +29,16 @@ class UpdateClaimWordSheetRequest extends FormRequest
         $rules = ClaimWordSheet::$rules;
         
         return $rules;
+    }
+
+    public function sanitize(array $input)
+    {
+        $price_list = removeFormatPriceList(
+            [
+                'claim_amt' => data_get($input, 'claim_amt'),
+                'payable_amt' => data_get($input, 'payable_amt'),
+            ]
+        );
+        return $price_list;
     }
 }
