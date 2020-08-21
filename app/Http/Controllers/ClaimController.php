@@ -1719,9 +1719,9 @@ class ClaimController extends Controller
             $file_name_payment =  md5(Str::random(12).time());
             Storage::put('public/cache/' . $file_name_payment, $data['content_payment']);
             $path_file[] = storage_path("app/public/cache/$file_name_payment") ;
-            $mpdf->AddPage();
             $count_page = $mpdf->SetSourceFile(storage_path("app/public/cache/$file_name_payment"));
             for ($i = 1; $i <= $count_page; $i++) {
+                $mpdf->AddPage();
                 $tplId = $mpdf->ImportPage($i);
                 $mpdf->UseTemplate($tplId);
             }
@@ -1730,9 +1730,9 @@ class ClaimController extends Controller
         // save CSR
         $CsrFile = $claim->CsrFile->where('rpct_oid','VN_CLSETTRPT01_OC')->first();
         $url_csr = storage_path("../../vnaiaprod" . $CsrFile->path . $CsrFile->filename);
-        $mpdf->AddPage('L');
         $count_page = $mpdf->SetSourceFile($url_csr);
-        for ($i = 1; $i <= $count_page; $i++) {
+        for ($i = 1; $i <= $count_page-1; $i++) {
+            $mpdf->AddPage('L');
             $tplId = $mpdf->ImportPage($i);
             $mpdf->UseTemplate($tplId);
         }
@@ -1748,6 +1748,7 @@ class ClaimController extends Controller
         $mpdf->AddPage();
         $count_page = $mpdf->SetSourceFile(storage_path("app/public/cache/$file_name_letter"));
         for ($i = 1; $i <= $count_page; $i++) {
+            $mpdf->AddPage('L');
             $tplId = $mpdf->ImportPage($i);
             $mpdf->UseTemplate($tplId);
         }
