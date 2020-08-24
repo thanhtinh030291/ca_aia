@@ -1751,9 +1751,9 @@ class ClaimController extends Controller
             $tplId = $mpdf->ImportPage($i);
             $mpdf->UseTemplate($tplId);
         }
-        $HBS_CL_CLAIM = HBS_CL_CLAIM::IOPDiag()->findOrFail($claim->code_claim);
-        $namefile = Str::slug("{$HBS_CL_CLAIM->Police->pocy_ref_no}_{$HBS_CL_CLAIM->memberNameCap}_CSR_{$claim->code_claim_show}", '-');
-        $mpdf->Output("{$namefile}.pdf","F");
+        // $HBS_CL_CLAIM = HBS_CL_CLAIM::IOPDiag()->findOrFail($claim->code_claim);
+        // $namefile = Str::slug("{$HBS_CL_CLAIM->Police->pocy_ref_no}_{$HBS_CL_CLAIM->memberNameCap}_CSR_{$claim->code_claim_show}", '-');
+        $mpdf->Output();
     }
     
     public function sendCSRFile(Request $request, $id){
