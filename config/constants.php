@@ -172,11 +172,11 @@ return[
         'HYNO' => 'HYNO',
         'OSTE' => 'OSTE',
         'DT_DENT' => 'DT_DENT',
-        'OE1' => 'OE1',
+        'OEI' => 'OEI',
         'DENT' => 'DENT',
-        'RB1' => 'RB1',
-        'IMIS1' => 'IMIS1',
-        'POSH1' => 'PORX1'
+        'RBI' => 'RBI',
+        'IMISI' => 'IMISI',
+        'POSHI' => 'PORXI'
     ],
     'status_mantic' =>[
         9=>'mcp_new',
