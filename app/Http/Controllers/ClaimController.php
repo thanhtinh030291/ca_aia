@@ -1727,7 +1727,7 @@ class ClaimController extends Controller
             }
         }
 
-        save CSR
+        //save CSR
         $CsrFile = $claim->CsrFile->where('rpct_oid','VN_CLSETTRPT01_OC')->first();
         $url_csr = storage_path("../../vnaiaprod" . $CsrFile->path . $CsrFile->filename);
         $count_page = $mpdf->SetSourceFile($url_csr);
