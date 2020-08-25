@@ -361,7 +361,7 @@ function payMethod($HBS_CL_CLAIM){
             $notify = "Quý khách vui lòng kiểm tra tài khoản nhận tiền, số tiền thanh toán sẽ được chuyển trong 10 ngày làm việc.";
             $not_show_table = false;
             break;
-        case 'CL_PAYMENT_METHOD_CA':
+        case 'CL_PAYMENT_METHOD_CH':
             $name_reciever = $HBS_CL_CLAIM->member->cash_beneficiary_name;
             $info_reciever = "CMND/Căn cước công dân: " .$HBS_CL_CLAIM->member->cash_id_passport_no.', ngày cấp:  
             '.Carbon\Carbon::parse($HBS_CL_CLAIM->member->cash_id_passport_date_of_issue)->format('d/m/Y').', nơi cấp: '. $HBS_CL_CLAIM->member->cash_id_passport_issue_place;

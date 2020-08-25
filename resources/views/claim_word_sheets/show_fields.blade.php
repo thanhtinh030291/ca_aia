@@ -89,7 +89,12 @@
         {{$member->MrMemberEvent->where('scma_oid_event_code', 'EVENT_CODE_EXPL')->first() ? $member->MrMemberEvent->where('scma_oid_event_code', 'EVENT_CODE_EXPL')->first()->event_desc : "" }}
     </p>
     <p><span  class="font-weight-bold">Exclusion:</span> 
-        {{$member->MrMemberEvent->where('scma_oid_event_code', 'EVENT_CODE_EXCL')->first() ? $member->MrMemberEvent->where('scma_oid_event_code', 'EVENT_CODE_EXCL')->first()->event_desc : ""}}
+        @php
+        $exclu = $member->MrMemberEvent->where('scma_oid_event_code', 'EVENT_CODE_EXCL');
+        @endphp
+        @foreach ($exclu as $item)
+            <p>{{$item->event_desc}}--({{$item->event_date}})</p>
+        @endforeach
     </p>
     <p><span  class="font-weight-bold">Etalk Link:</span>
         <a class="btn btn-primary" target="_blank" href="{{config('constants.url_mantic').'view.php?id='.$claim->barcode }}">Link</a>
