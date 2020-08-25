@@ -54,12 +54,12 @@ return[
         'HSP' => 'Các chi phí nội trú khác, Điều trị trước và sau khi nằm viện, Phí khám bệnh hằng ngày của Bác sĩ/Bác sĩ chuyên khoa',
         'HVIS' => 'Các chi phí nội trú khác, Điều trị trước và sau khi nằm viện, Phí khám bệnh hằng ngày của Bác sĩ/Bác sĩ chuyên khoa',
         'IMIS' => 'Các chi phí nội trú khác',
-        'IMISI' => 'Các chi phí nội trú khác',
+        'IMIS1' => 'Các chi phí nội trú khác',
         'PORX' => 'Điều trị sau khi nằm viện',
         'POSH' => 'Điều trị trước khi nằm viện',
 
         'RB' => 'Tiền phòng và ăn uống',
-        'RBI' => 'Tiền phòng và ăn uống',
+        'RB1' => 'Tiền phòng và ăn uống',
         'EXTB' => 'Giường cho người thân',
 
         'ICU' => 'Khoa chăm sóc đặc biệt',
