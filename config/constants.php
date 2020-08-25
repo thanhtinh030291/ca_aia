@@ -54,11 +54,12 @@ return[
         'HSP' => 'Các chi phí nội trú khác, Điều trị trước và sau khi nằm viện, Phí khám bệnh hằng ngày của Bác sĩ/Bác sĩ chuyên khoa',
         'HVIS' => 'Các chi phí nội trú khác, Điều trị trước và sau khi nằm viện, Phí khám bệnh hằng ngày của Bác sĩ/Bác sĩ chuyên khoa',
         'IMIS' => 'Các chi phí nội trú khác',
+        'IMISI' => 'Các chi phí nội trú khác',
         'PORX' => 'Điều trị sau khi nằm viện',
         'POSH' => 'Điều trị trước khi nằm viện',
 
         'RB' => 'Tiền phòng và ăn uống',
-
+        'RBI' => 'Tiền phòng và ăn uống',
         'EXTB' => 'Giường cho người thân',
 
         'ICU' => 'Khoa chăm sóc đặc biệt',
@@ -78,7 +79,9 @@ return[
         'RADIA'  => 'Điều trị ung thư',
 
         'TDAM' => 'Điều trị tổn thương răng do tai nạn',
-        
+        'MAT'   => 'Chi Phí Khám Thai',
+        'CXP'   => 'Chi Phí Sinh Mổ',
+        'DELI'  => 'Chi Phí Sinh Thường',
     ],
     'content_op' => [
         'OVRX' => 'Quyền lợi ngoại trú',
@@ -97,7 +100,8 @@ return[
         'HLIS' => 'Y hoc thay thế',
         'HMEO' => 'Y hoc thay thế',
         'HYNO' => 'Y hoc thay thế',
-        'OSTE' => 'Y hoc thay thế'
+        'OSTE' => 'Y hoc thay thế',
+        'PORX' => 'Tái khám sau khi xuất viện',
     ],
     // 'token_mantic' => 'ABBKcuCHfFxFw_2v_30e1aJG1xUXhd3p',
     // 'url_mantic' => 'https://health-etalk.pacificcross.com.vn/',
@@ -176,7 +180,7 @@ return[
         'DENT' => 'DENT',
         'RBI' => 'RBI',
         'IMISI' => 'IMISI',
-        'POSHI' => 'PORXI',
+        'PORXI' => 'PORXI',
         'MAT'   => 'MAT',
         'CXP'   => 'CXP',
         'DELI'  => 'DELI',
