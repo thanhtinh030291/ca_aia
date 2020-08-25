@@ -176,7 +176,10 @@ return[
         'DENT' => 'DENT',
         'RBI' => 'RBI',
         'IMISI' => 'IMISI',
-        'POSHI' => 'PORXI'
+        'POSHI' => 'PORXI',
+        'MAT'   => 'MAT',
+        'CXP'   => 'CXP',
+        'DELI'  => 'DELI',
     ],
     'status_mantic' =>[
         9=>'mcp_new',
