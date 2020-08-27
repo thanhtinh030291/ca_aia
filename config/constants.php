@@ -58,8 +58,8 @@ return[
         'PORX' => 'Điều trị sau khi nằm viện',
         'POSH' => 'Điều trị trước khi nằm viện',
 
-        'RB' => 'Tiền phòng và ăn uống',
-        'RB1' => 'Tiền phòng và ăn uống',
+        'RB' => 'Tiền phòng',
+        'RB1' => 'Tiền phòng',
         'EXTB' => 'Giường cho người thân',
 
         'ICU' => 'Khoa chăm sóc đặc biệt',
@@ -82,6 +82,7 @@ return[
         'MAT'   => 'Chi Phí Khám Thai',
         'CXP'   => 'Chi Phí Sinh Mổ',
         'DELI'  => 'Chi Phí Sinh Thường',
+        'MCAR'  => 'Sảy Thai',
     ],
     'content_op' => [
         'OVRX' => 'Quyền lợi ngoại trú',
@@ -184,6 +185,7 @@ return[
         'MAT'   => 'MAT',
         'CXP'   => 'CXP',
         'DELI'  => 'DELI',
+        'MCAR'  => 'MCAR',
     ],
     'status_mantic' =>[
         9=>'mcp_new',
