@@ -1667,11 +1667,9 @@ class ClaimController extends Controller
                 Storage::put('public/cache/' . $file_name_man, $file_contents);
                 $path_file[] = storage_path("app/public/cache/$file_name_man") ;
                 if($claim->old_number_page_send != 0){
-                    
                     $file_name_man_output =  md5(Str::random(9).time());
-                    $FirstPage = $claim->old_number_page_send + 1 ;
                     $removed = array_pop($path_file);
-                    $cm_run ="gs -sDEVICE=pdfwrite -dNOPAUSE -dQUIET -dBATCH -dFirstPage={$FirstPage} -sOutputFile=". storage_path("app/public/cache/$file_name_man_output") ." ".storage_path("app/public/cache/$file_name_man");
+                    $cm_run ="gs -sDEVICE=pdfwrite -dNOPAUSE -dQUIET -dBATCH  -sOutputFile=". storage_path("app/public/cache/$file_name_man_output") ." ".storage_path("app/public/cache/$file_name_man");
                     exec($cm_run);
                     Storage::delete(str_replace(storage_path("app")."/", "", $removed));
                     $path_file[] = storage_path("app/public/cache/$file_name_man_output");
