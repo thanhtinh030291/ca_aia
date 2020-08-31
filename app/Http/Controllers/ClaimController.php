@@ -298,7 +298,6 @@ class ClaimController extends Controller
         $list_level = LevelRoleStatus::where('claim_type',$claim_type)->get();
         $list_status_ad = RoleChangeStatus::pluck('name','id');
         $export_letter = $data->export_letter;
-        
         foreach ($export_letter as $key => $value) {
             if($value->letter_template->level != 0){
                 $level = $list_level
@@ -357,8 +356,7 @@ class ClaimController extends Controller
             $payment_method = "";
             $balance_cps = collect([]);
         }
-        $can_pay_rq = json_decode(json_encode(GetApiMantic('api/rest/plugins/apimanagement/issues/finish/'.$data->barcode)),true);
-        $can_pay_rq = data_get($can_pay_rq,'status') == 'success' ? 'success' : 'error';
+        
         $manager_gop_accept_pay = 'error';
         $hospital_request = $claim->hospital_request;
         $list_diagnosis = $claim->hospital_request ? collect($claim->hospital_request->diagnosis)->pluck('text', 'id') : [];
@@ -377,6 +375,11 @@ class ClaimController extends Controller
             } catch (Exception $e) {
 
             }
+        }
+        $can_pay_rq = false;
+        $count_ap = $export_letter->where('apv_amt',$approve_amt)->where('approve',"!=",null)->count();
+        if($count_ap > 0){
+            $can_pay_rq = true;
         }
         $compact = compact(['data', 'dataImage', 'items', 'admin_list', 'listReasonReject', 
         'listLetterTemplate' , 'list_status_ad', 'user', 'payment_history', 'approve_amt','tranfer_amt','present_amt',

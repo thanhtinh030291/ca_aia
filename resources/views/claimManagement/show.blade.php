@@ -77,8 +77,8 @@ $totalAmount = 0;
 
                                     {{-- payment request  --}}
                                     {{ Form::label('Payment_Request', 'Payment Request', array('class' => 'labelas')) }}
-                                    <p class="text-danger">Yêu cầu thanh toán chỉ hiển thị khi Issue trên Health Etalk đạt trạng thái Finish! </p>
-                                    @if($can_pay_rq == 'success')
+                                    <p class="text-danger">Yêu cầu thanh toán chỉ hiển thị khi Được approved! </p>
+                                    @if($can_pay_rq == true)
                                             {!! Form::button('Yêu Cầu Finance Thanh Toán', ['data-toggle' => "modal" ,  
                                                 'data-target' => "#requetPaymentModal",
                                                 'type' => 'button', 

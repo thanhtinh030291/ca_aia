@@ -37,7 +37,7 @@
                         {{ Form::text('payment_method', $payment_method, ['class' => 'form-control col-md-5 mt-1', 'readonly']) }}
                     
                         {{ Form::label('mantis_id', 'Mantis id (Số ISSUE TRÊN H-E) ', ['class' => 'labelas col-md-5 mt-1']) }}
-                        {{ Form::text('mantis_id', $data->barcode, ['class' => 'form-control col-md-5 mt-1', 'readonly']) }}
+                        {{ Form::text('mantis_id', $data->mantis_id, ['class' => 'form-control col-md-5 mt-1', 'readonly']) }}
                         
                     </div>
                 </div>
