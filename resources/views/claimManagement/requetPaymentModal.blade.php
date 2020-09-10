@@ -19,7 +19,7 @@
                         {{ Form::text('pocy_ref_no', $pocy_ref_no, ['class' => 'form-control col-md-5 mt-1', 'readonly']) }}
                     
                         {{ Form::label('memb_ref_no', 'Member Ref No(MÃ SỐ THÀNH VIÊN)', ['class' => 'labelas col-md-5 mt-1']) }}
-                        {{ Form::text('memb_ref_no', $memb_ref_no, ['class' => 'form-control col-md-5 mt-1', 'readonly']) }}
+                        {{ Form::text('memb_ref_no', $memb_ref_no, ['class' => 'form-control col-md-5 mt-1']) }}
                     
                         {{ Form::label('pres_amt', 'Presented Amt(SỐ TIỀN YÊU CẦU BỒI THƯỜNG)', ['class' => 'labelas col-md-5 mt-1']) }}
                         {{ Form::text('pres_amt', $present_amt, ['class' => 'form-control col-md-5 mt-1', 'readonly']) }}
