@@ -853,12 +853,13 @@ class AjaxCommonController extends Controller
         ];
         $body = [
             'access_token' => $token,
+            'memb_ref_no' => $mem_ref_no
         ];
 
         $client = new \GuzzleHttp\Client([
             'headers' => $headers
         ]);
-        $response = $client->request("POST", config('constants.api_cps').'get_client_debit/'. $mem_ref_no , ['form_params'=>$body]);
+        $response = $client->request("POST", config('constants.api_cps').'get_client_debit' , ['form_params'=>$body]);
         $response =  json_decode($response->getBody()->getContents());
         /*
             There are 4 types:
