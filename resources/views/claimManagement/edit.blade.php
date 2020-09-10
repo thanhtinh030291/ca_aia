@@ -50,7 +50,7 @@
                         {{ Form::label('barcode', 'Claim Ref No', array('class' => 'labelas')) }}
                         {{ Form::text('barcode', old('barcode'), array('id'=>'barcode', 'class' => 'barcode form-control', 'required', 'readonly')) }}
                         {{ Form::label('mantis_id', 'Mantis Id', array('class' => 'labelas')) }}
-                        {{ Form::text('barcode', $data->mantis_id, array('id'=>'barcode', 'class' => ' form-control', 'required')) }}
+                        {{ Form::text('mantis_id', $data->mantis_id, array('id'=>'mantis_id', 'class' => ' form-control', 'required')) }}
                         </div>
                             </div>
 
