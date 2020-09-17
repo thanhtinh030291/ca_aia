@@ -57,7 +57,7 @@ return[
         'IMIS1' => 'Các chi phí nội trú khác',
         'PORX' => 'Điều trị sau khi nằm viện',
         'POSH' => 'Điều trị trước khi nằm viện',
-
+        'POSHI' => 'Điều trị trước khi nằm viện',
         'RB' => 'Tiền phòng',
         'RB1' => 'Tiền phòng',
         'EXTB' => 'Giường cho người thân',
@@ -187,7 +187,8 @@ return[
         'CXP'   => 'CXP',
         'DELI'  => 'DELI',
         'MCAR'  => 'MCAR',
-        'MEDC'  => 'MEDC'
+        'MEDC'  => 'MEDC',
+        'POSHI' => 'POSHI',
     ],
     'status_mantic' =>[
         9=>'mcp_new',
