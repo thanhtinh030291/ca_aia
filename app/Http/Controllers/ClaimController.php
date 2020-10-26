@@ -653,7 +653,7 @@ class ClaimController extends Controller
                     'approve_amt' => $export_letter->apv_amt,
                     'finished' => 0,
                     'payed' => 0,
-                    'user' => $user->id,
+                    'user' => $user_create->id,
                     'notify' => 1,
                 ]);
             }
