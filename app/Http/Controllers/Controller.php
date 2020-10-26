@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Auth;
 use App\User;
 use App\PaymentHistory;
+use App\FinishAndPay;
 use View;
 
 class Controller extends BaseController
@@ -22,11 +23,13 @@ class Controller extends BaseController
         $this->middleware(function ($request, $next) {
             $user = Auth::user()  ;
             $listUser = User::pluck('email', 'id');
-            $vision = 1;
+            $vision = 2;
             if($user){
                 $messages = $user->messagesReceiver;
                 $renewToClaim = PaymentHistory::where('notify_renew', 1)->where('created_user',$user->id)->get();
+                $finishAndPay = FinishAndPay::where('notify',1)->where('user',$user->id)->where('finished',1)->where('payed',0)->get();
                 View::share('renewToClaim', $renewToClaim);
+                View::share('finishAndPay', $finishAndPay);
                 View::share('messages', $messages);
                 View::share('listUser', $listUser);
                 View::share('vision', $vision);

@@ -9,6 +9,7 @@ use App\Console\Commands\GetCPS;
 use App\Console\Commands\GetHBS;
 use App\Console\Commands\GetRenewPayment;
 use App\Console\Commands\UpdateFile;
+use App\Console\Commands\CheckFinishAndPay;
 class Kernel extends ConsoleKernel
 {
     /**
@@ -22,6 +23,7 @@ class Kernel extends ConsoleKernel
         GetHBS::class,
         GetRenewPayment::class,
         UpdateFile::class,
+        CheckFinishAndPay::class
     ];
 
     /**
@@ -34,10 +36,11 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();command:GetCPS
-        $schedule->command('command:GetCPS')->everyMinute();
-        $schedule->command('command:GetHBS')->everyMinute();
-        $schedule->command('command:GetRenewPayment')->everyMinute();
-        $schedule->command('command:UpdateFile')->everyMinute();
+        //$schedule->command('command:GetCPS')->everyMinute();
+        //$schedule->command('command:GetHBS')->everyMinute();
+        //$schedule->command('command:GetRenewPayment')->everyMinute();
+        //$schedule->command('command:UpdateFile')->everyMinute();
+        $schedule->command('command:CheckFinishAndPay')->everyTenMinutes();
 
     }
 

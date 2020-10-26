@@ -33,6 +33,7 @@ use App\MANTIS_TEAM;
 use App\MANTIS_USER_GROUP;
 use App\MANTIS_USER;
 use App\HBS_MR_MEMBER;
+use App\FinishAndPay;
 use PDF;
 use App\MANTIS_BUG;
 use App\MANTIS_CUSTOM_FIELD_STRING;
@@ -644,6 +645,19 @@ class ClaimController extends Controller
 
                 ]);
             }
+            // flow check fN
+            if ($export_letter->apv_amt > 0) {
+                $claim->finish_and_pay()->updateOrCreate([], [
+                    'cl_no' => $claim->code_claim_show,
+                    'mantis_id' =>  $claim->mantis_id,
+                    'approve_amt' => $export_letter->apv_amt,
+                    'finished' => 0,
+                    'payed' => 0,
+                    'user' => $user->id,
+                    'notify' => 1,
+                ]);
+            }
+
 
         }else{
             $status_change = $request->status_change;
@@ -731,6 +745,10 @@ class ClaimController extends Controller
                         'MEMB_REF_NO' => $HBS_CL_CLAIM->member->memb_ref_no,
                     ])
                 ]);
+
+                 // flow check fN
+                FinishAndPay::where('claim_id', $claim->id)->update(['finished' => 1]);
+
             }elseif($user_create->hasRole('Claim Independent')){
                 if($request->status_change == 14 || $request->status_change == 7 ){
                     if($export_letter->letter_template->letter_payment == null){
