@@ -719,16 +719,17 @@ class ClaimController extends Controller
             $list_level = LevelRoleStatus::all();
             $level = $this->getLevel($export_letter, $list_level, $claim->claim_type);
             if($level->signature_accepted_by == $status_change[0] || ($user_create->hasRole('Claim Independent') && $user->hasRole('Manager'))){
-                $approve_user_sign = $claim_type == "P" ? getUserSignThumb($user->id) : getUserSign($user->id);
+                $per_approve_sign_replace = $claim_type == "P" ? getUserSignThumb() : getUserSign();
+                $approve_user_sign = $user->name;
                 if($export_letter->letter_template->letter_payment == null){
                     $export_letter->approve = [  'user' => $user->id,
                         'created_at' => Carbon::now()->toDateTimeString(),
-                        'data' => str_replace('[[$per_approve_sign]]', $approve_user_sign, data_get($export_letter->wait, "data")),
+                        'data' => str_replace(['[[$per_approve_sign]]','[[$per_approve_sign_replace]]'], [$approve_user_sign,$per_approve_sign_replace], data_get($export_letter->wait, "data")),
                     ];
                 }else{
                     $export_letter->approve = [  'user' => $user->id,
                         'created_at' => Carbon::now()->toDateTimeString(),
-                        'data' => str_replace('[[$per_approve_sign]]', $approve_user_sign, data_get($export_letter->wait, "data")),
+                        'data' => str_replace(['[[$per_approve_sign]]','[[$per_approve_sign_replace]]'], [$approve_user_sign,$per_approve_sign_replace], data_get($export_letter->wait, "data")),
                         'data_payment' => base64_encode($this->letterPayment($export_letter->letter_template->letter_payment , $request->claim_id , $id, 1)['content'])
                     ];
                     
@@ -1170,8 +1171,9 @@ class ClaimController extends Controller
 
         if($approve != null){
             $user = Auth::user();
-            $approve_user_sign = getUserSign($user->id);
-            $data['content'] = str_replace('[[$per_approve_sign]]', $approve_user_sign, $data['content']);
+            $per_approve_sign_replace = $claim_type == "P" ? getUserSignThumb() : getUserSign();
+            $approve_user_sign = $user->name;
+            $data['content'] = str_replace(['[[$per_approve_sign]]','[[$per_approve_sign_replace]]'], [$approve_user_sign,$per_approve_sign_replace], $data['content']);
         }else{
             $data['content'] = str_replace('[[$per_approve_sign]]', "", $data['content']);
         }
