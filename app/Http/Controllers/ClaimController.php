@@ -1164,7 +1164,8 @@ class ClaimController extends Controller
         $data = $this->letter($letter_template_id , $claim_id,  $export_letter_id);
         $export_letter = ExportLetter::findOrFail($export_letter_id);
         $user_create = User::findOrFail($export_letter->created_user);
-        
+        $claim  = Claim::findOrFail($claim_id);
+        $claim_type = $claim->claim_type;
         //$create_user_sign = getUserSign($export_letter->created_user);
         $create_user_sign = $user_create->name;
         $data['content'] = str_replace('[[$per_creater_sign]]', $create_user_sign, $data['content']);
