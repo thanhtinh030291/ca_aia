@@ -92,47 +92,47 @@ class HBS_MR_MEMBER extends  BaseModelDB2
 
     public function getStatusQueryAttribute(){
         //return " ";
-        $headers = [
-            'Content-Type' => 'application/json',
-        ];
-        $client = new \GuzzleHttp\Client([
-            'headers' => $headers
-        ]);
+        // $headers = [
+        //     'Content-Type' => 'application/json',
+        // ];
+        // $client = new \GuzzleHttp\Client([
+        //     'headers' => $headers
+        // ]);
         
-        try {
-            $request = $client->get(config('constants.url_query_online').$this->memb_ref_no);
-            $response = $request->getBody()->getContents();
-            $response = json_decode($response,true);
-            if(data_get($response, 'response_msg.msg_code') == "DLVN0"){
-                $html = "";
-                foreach(data_get($response, 'client_info', []) as $key => $value){
-                    $html .= "<span class = 'ml-2'>" . data_get($value ,'sPlanID') . ": ".  data_get($value ,'sStatus')  . "</span>";
-                }
-                return $html;
-            }else{
-                return "";
-            }
-        } catch ( Exception $e) {
+        // try {
+        //     $request = $client->get(config('constants.url_query_online').$this->memb_ref_no);
+        //     $response = $request->getBody()->getContents();
+        //     $response = json_decode($response,true);
+        //     if(data_get($response, 'response_msg.msg_code') == "DLVN0"){
+        //         $html = "";
+        //         foreach(data_get($response, 'client_info', []) as $key => $value){
+        //             $html .= "<span class = 'ml-2'>" . data_get($value ,'sPlanID') . ": ".  data_get($value ,'sStatus')  . "</span>";
+        //         }
+        //         return $html;
+        //     }else{
+        //         return "";
+        //     }
+        // } catch ( Exception $e) {
             return "";
-        }
+        // }
     }
 
     public function getQueryOnlineAttribute(){
         //return " ";
-        $headers = [
-            'Content-Type' => 'application/json',
-        ];
-        $client = new \GuzzleHttp\Client([
-            'headers' => $headers
-        ]);
-        try {
-            $request = $client->get(config('constants.url_query_online').$this->memb_ref_no);
-            $response = $request->getBody()->getContents();
-            return $response;
+        // $headers = [
+        //     'Content-Type' => 'application/json',
+        // ];
+        // $client = new \GuzzleHttp\Client([
+        //     'headers' => $headers
+        // ]);
+        // try {
+        //     $request = $client->get(config('constants.url_query_online').$this->memb_ref_no);
+        //     $response = $request->getBody()->getContents();
+        //     return $response;
 
-        } catch (Exception $e) {
+        // } catch (Exception $e) {
             return "";
-        }
+        // }
     }
 
     public function getBankNameChangeAttribute()
